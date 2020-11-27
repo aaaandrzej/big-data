@@ -22,14 +22,16 @@ def timer(func):
     return wraps
 
 
-directory = ''
-file = 'data_sample.csv'
+dir_name = 'input-data'
+file_name = '5m Sales Records.csv'
+# file = 'data_sample.csv'
+file = os.path.join(dir_name, file_name)
 
 
 @timer
-def print_csv_rows_converted_to_objects(directory=directory, file=file):
+def print_csv_rows_converted_to_objects(file=file):
     counter = 0
-    with open(os.path.join(directory, file), newline='') as csvfile:
+    with open(file) as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         next(reader)  # skipping the header row
         for row in reader:
@@ -44,4 +46,5 @@ def print_csv_rows_converted_to_objects(directory=directory, file=file):
     return
 
 
-print_csv_rows_converted_to_objects()
+if __name__ == '__main__':
+    print_csv_rows_converted_to_objects()
