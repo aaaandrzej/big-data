@@ -1,35 +1,9 @@
 import csv
-from dataclasses import dataclass, asdict
+from copy import copy
 import os
 
 from app.adapters.country_codes import cc_decoder
 from app.core.timer import timer
-
-
-@dataclass
-class City:
-    geonameid: str
-    name: str
-    asciiname: str
-    alternatenames: str
-    latitude: str
-    longitude: str
-    featureclass: str
-    featurecode: str
-    countrycode: str
-    cc2: str
-    admin1code: str
-    admin2code: str
-    admin3code: str
-    admin4code: str
-    population: str
-    elevation: str
-    dem: str
-    timezone: str
-    modificationdate: str
-
-    def object_as_dict(self):
-        return asdict(self)
 
 
 @timer
@@ -58,7 +32,7 @@ def convert_txt_to_csv_and_update_country_names(input_file, input_fieldnames,
                 break
 
     print(f'\n{counter} lines read\n')
-    return city_list  # TODO what's better - list of dict or list of City dataclass objects?
+    return city_list
 
 
 @timer
@@ -72,8 +46,10 @@ def write_list_to_csv(content, output_file, output_fieldnames):
     return
 
 
-INPUT_FIELDNAMES = list(City.__dict__['__annotations__'].keys())
-OUTPUT_FIELDNAMES = list(City.__dict__['__annotations__'].keys())
+INPUT_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'alternatenames', 'latitude', 'longitude', 'featureclass',
+                    'featurecode', 'countrycode', 'cc2', 'admin1code', 'admin2code', 'admin3code', 'admin4code',
+                    'population', 'elevation', 'dem', 'timezone', 'modificationdate']
+OUTPUT_FIELDNAMES = copy(INPUT_FIELDNAMES)
 OUTPUT_FIELDNAMES.insert(3, 'country')
 OUTPUT_FIELDNAMES.remove('alternatenames')
 
@@ -88,16 +64,17 @@ OUTPUT_FILE = os.path.join(OUTPUT_DIR_NAME, OUTPUT_FILE_NAME)
 
 CC_FILE = '../input-data/countryInfo.txt'
 
-
 if __name__ == '__main__':
     CC_CODES = cc_decoder(CC_FILE)
 
     city_list = convert_txt_to_csv_and_update_country_names(input_file=INPUT_FILE,
                                                             input_fieldnames=INPUT_FIELDNAMES,
-                                                            limit=10,
+                                                            # limit=10,
                                                             cc_decoder=CC_CODES)
 
     write_list_to_csv(city_list, output_file=OUTPUT_FILE, output_fieldnames=OUTPUT_FIELDNAMES)
+
+    # pass
 
     # 12056281 lines I/O operations
     #
