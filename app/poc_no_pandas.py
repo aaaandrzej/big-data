@@ -34,7 +34,7 @@ class City:
 
 @timer
 def convert_txt_to_csv_and_update_country_names(input_file, input_fieldnames,
-                                                cc_decoder, delimiter='\t', limit=None):
+                                                cc_decoder, delimiter='\t', limit=0):
     counter = 0
 
     with open(input_file) as input:
@@ -55,12 +55,9 @@ def convert_txt_to_csv_and_update_country_names(input_file, input_fieldnames,
             counter += 1
 
             if limit != 0 and counter >= limit:
-                stats = f'\n{counter} lines read\n'
-                print(stats)
-                return city_list  # TODO how to limit code duplication here?
+                break
 
-    stats = f'\n{counter} lines read\n'
-    print(stats)
+    print(f'\n{counter} lines read\n')
     return city_list  # TODO what's better - list of dict or list of City dataclass objects?
 
 
@@ -71,8 +68,7 @@ def write_list_to_csv(content, output_file, output_fieldnames):
         writer.writeheader()
         writer.writerows(content)
 
-    stats = f'\n{len(content)} lines written\n'
-    print(stats)
+    print(f'\n{len(content)} lines written\n')
     return
 
 
@@ -98,7 +94,7 @@ if __name__ == '__main__':
 
     city_list = convert_txt_to_csv_and_update_country_names(input_file=INPUT_FILE,
                                                             input_fieldnames=INPUT_FIELDNAMES,
-                                                            limit=0,
+                                                            limit=10,
                                                             cc_decoder=CC_CODES)
 
     write_list_to_csv(city_list, output_file=OUTPUT_FILE, output_fieldnames=OUTPUT_FIELDNAMES)
