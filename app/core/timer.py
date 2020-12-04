@@ -6,6 +6,6 @@ def timer(func):
         start = datetime.now()
         result = func(*args, **kwargs)
         finish = datetime.now()
-        print(f'execution time: {finish - start} [h:mm:ss.milliseconds]')
+        print(f'{func.__name__} function execution time: {finish - start} [h:mm:ss.milliseconds]')
         return result
     return wraps
