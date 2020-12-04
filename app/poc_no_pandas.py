@@ -1,6 +1,6 @@
 import csv
 
-from app.config import OUTPUT_FILE, INPUT_FILE, INPUT_FIELDNAMES, CC_CODES, OUTPUT_FIELDNAMES
+from config import OUTPUT_FILE, INPUT_FILE, INPUT_FIELDNAMES, CC_CODES, OUTPUT_FIELDNAMES
 from app.core.timer import timer
 
 
@@ -22,7 +22,6 @@ def convert_txt_to_csv_and_update_country_names(input_file, input_fieldnames,
             except KeyError:
                 city_as_dict['country'] = None
 
-            del city_as_dict['alternatenames']
             city_list.append(city_as_dict)
             counter += 1
 
@@ -31,6 +30,15 @@ def convert_txt_to_csv_and_update_country_names(input_file, input_fieldnames,
 
     print(f'\n{counter} lines read\n')
     return city_list
+
+
+@timer
+def trim_obsolete_columns(content, input_fieldnames, output_fieldnames):
+    obsolete_fieldnames = [field for field in input_fieldnames if field not in output_fieldnames]
+    for item in content:  # logic potentially to be reduced and moved inside convert function
+        for field in obsolete_fieldnames:
+            del item[field]  # proven to be 2x faster than item.pop(field)
+    return
 
 
 @timer
@@ -44,14 +52,13 @@ def write_list_to_csv(content, output_file, output_fieldnames):
     return
 
 
-
-
 if __name__ == '__main__':
-
     city_list = convert_txt_to_csv_and_update_country_names(input_file=INPUT_FILE,
                                                             input_fieldnames=INPUT_FIELDNAMES,
-                                                            # limit=10,
+                                                            limit=10,
                                                             cc_decoder=CC_CODES)
+
+    trim_obsolete_columns(city_list, input_fieldnames=INPUT_FIELDNAMES, output_fieldnames=OUTPUT_FIELDNAMES)
 
     write_list_to_csv(city_list, output_file=OUTPUT_FILE, output_fieldnames=OUTPUT_FIELDNAMES)
 
