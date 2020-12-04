@@ -1,25 +1,5 @@
-import pandas as pd
-
 from app.bl.exc import FileFormatError
 from app.core.timer import timer
-
-
-@timer
-def csv_loader(file, input_fieldnames, usecols):
-    df = pd.read_csv(file, delimiter='\t', names=input_fieldnames, usecols=usecols)
-    return df
-
-
-@timer
-def filter_positive_population_cities(df):
-    df = df[(df.population > 0) & (df.featureclass == 'P')]
-    return df
-
-
-@timer
-def update_df_with_country(df, cc_decoder):
-    df.insert(3, column='country', value=df['countrycode'].map(cc_decoder))
-    return df
 
 
 @timer

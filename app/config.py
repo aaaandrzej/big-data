@@ -1,6 +1,6 @@
 import os
 
-from app.adapters.country_codes import cc_decoder
+from app.adapters.load_country_info import cc_decoder, capital_finder
 
 INPUT_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'alternatenames', 'latitude', 'longitude', 'featureclass',
                     'featurecode', 'countrycode', 'cc2', 'admin1code', 'admin2code', 'admin3code', 'admin4code',
@@ -22,3 +22,4 @@ OUTPUT_FILE = os.path.join(OUTPUT_DIR_NAME, OUTPUT_FILE_NAME)
 
 CC_FILE = '../input-data/countryInfo.txt'
 CC_CODES = cc_decoder(CC_FILE)
+CAPITALS = capital_finder(CC_FILE)

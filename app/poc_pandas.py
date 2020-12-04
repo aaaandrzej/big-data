@@ -1,7 +1,9 @@
 import pandas as pd
 import numpy as np
 
-from app.adapters.allcountries import csv_loader, update_df_with_country, save_df, filter_positive_population_cities
+from app.adapters.load_csv import csv_loader
+from app.adapters.save_df import save_df
+from app.bl.df_manipulations import filter_positive_population_cities, update_df_with_country
 from app.config import CC_CODES, INPUT_FILE, OUTPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, OUTPUT_FIELDNAMES
 from app.core.timer import timer
 
@@ -9,17 +11,17 @@ OUTPUT_FILE = OUTPUT_FILE.replace('.csv', '.feather')
 
 
 @timer
-def convert():
+def func():
     df = csv_loader(INPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES)
     df = filter_positive_population_cities(df)
     df = update_df_with_country(df, CC_CODES)
-    save_df(df, OUTPUT_FILE, OUTPUT_FIELDNAMES)
+    # save_df(df, OUTPUT_FILE, OUTPUT_FIELDNAMES)
     return df
 
 
 if __name__ == '__main__':
 
-    df = convert()
+    df = func()
 
 
 
