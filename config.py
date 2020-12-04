@@ -11,15 +11,23 @@ INTERIM_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'countrycode', 'latitude
 
 OUTPUT_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'country', 'latitude', 'longitude']
 
-INPUT_DIR_NAME = '../input-data'
+
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+INPUT_DIR = 'input-data'
 INPUT_FILE_NAME = 'allCountries.txt'
 
-OUTPUT_DIR_NAME = '../output-data'
+OUTPUT_DIR = 'output-data'
 OUTPUT_FILE_NAME = 'allCountries.csv'
 
-INPUT_FILE = os.path.join(INPUT_DIR_NAME, INPUT_FILE_NAME)
-OUTPUT_FILE = os.path.join(OUTPUT_DIR_NAME, OUTPUT_FILE_NAME)
+INPUT_FILE = os.path.join(ROOT_DIR, INPUT_DIR, INPUT_FILE_NAME)
+OUTPUT_FILE = os.path.join(ROOT_DIR, OUTPUT_DIR, OUTPUT_FILE_NAME)
 
-CC_FILE = '../input-data/countryInfo.txt'
+CC_FILE_NAME = '../input-data/countryInfo.txt'
+CC_FILE = os.path.join(ROOT_DIR, INPUT_DIR, CC_FILE_NAME)
+
+AIRPORTS_FILE_NAME = 'airports.csv'
+AIRPORTS_FILE = os.path.join(ROOT_DIR, INPUT_DIR, AIRPORTS_FILE_NAME)
+
 CC_CODES = cc_decoder(CC_FILE)
 CAPITALS = capital_finder(CC_FILE)
