@@ -1,4 +1,3 @@
-# - kazdy rekord ma kod kraju, z każdego wyrzucić kolumnę z innymi nazwami tego miejsca
 def filter_positive_population_cities(df):
     return df[(df.population > 0) & (df.featureclass == 'P')]
 

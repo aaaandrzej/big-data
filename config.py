@@ -29,5 +29,5 @@ CC_FILE = os.path.join(ROOT_DIR, INPUT_DIR, CC_FILE_NAME)
 AIRPORTS_FILE_NAME = 'airports.csv'
 AIRPORTS_FILE = os.path.join(ROOT_DIR, INPUT_DIR, AIRPORTS_FILE_NAME)
 
-CC_CODES = cc_decoder(CC_FILE)
+CC_CODES = cc_decoder(CC_FILE)  # TODO where to move these 2 lines?
 CAPITALS = capital_finder(CC_FILE)
