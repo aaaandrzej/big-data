@@ -1,8 +1,6 @@
 import csv
-from copy import copy
-import os
 
-from app.adapters.country_codes import cc_decoder
+from app.config import OUTPUT_FILE, INPUT_FILE, INPUT_FIELDNAMES, CC_CODES, OUTPUT_FIELDNAMES
 from app.core.timer import timer
 
 
@@ -46,26 +44,9 @@ def write_list_to_csv(content, output_file, output_fieldnames):
     return
 
 
-INPUT_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'alternatenames', 'latitude', 'longitude', 'featureclass',
-                    'featurecode', 'countrycode', 'cc2', 'admin1code', 'admin2code', 'admin3code', 'admin4code',
-                    'population', 'elevation', 'dem', 'timezone', 'modificationdate']
-OUTPUT_FIELDNAMES = copy(INPUT_FIELDNAMES)
-OUTPUT_FIELDNAMES.insert(3, 'country')
-OUTPUT_FIELDNAMES.remove('alternatenames')
 
-INPUT_DIR_NAME = '../input-data'
-INPUT_FILE_NAME = 'allCountries.txt'
-
-OUTPUT_DIR_NAME = '../output-data'
-OUTPUT_FILE_NAME = 'allCountries.csv'
-
-INPUT_FILE = os.path.join(INPUT_DIR_NAME, INPUT_FILE_NAME)
-OUTPUT_FILE = os.path.join(OUTPUT_DIR_NAME, OUTPUT_FILE_NAME)
-
-CC_FILE = '../input-data/countryInfo.txt'
 
 if __name__ == '__main__':
-    CC_CODES = cc_decoder(CC_FILE)
 
     city_list = convert_txt_to_csv_and_update_country_names(input_file=INPUT_FILE,
                                                             input_fieldnames=INPUT_FIELDNAMES,
@@ -83,3 +64,4 @@ if __name__ == '__main__':
     #
     # list with 12m dicts read and written to csv in one go:
     # execution time: 0:06:04.887862[h:mm:ss.milliseconds]
+    # execution time: 0:07:25.912101[h:mm:ss.milliseconds]
