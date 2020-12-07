@@ -4,6 +4,6 @@ from app.core.timer import timer
 
 
 @timer
-def csv_loader(file, input_fieldnames, usecols):
-    df = pd.read_csv(file, delimiter='\t', names=input_fieldnames, usecols=usecols)
+def load_csv(file, input_fieldnames=None, usecols=None, skiprows=None, delimiter='\t'):
+    df = pd.read_csv(file, delimiter=delimiter, names=input_fieldnames, usecols=usecols, skiprows=skiprows)
     return df

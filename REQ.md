@@ -22,6 +22,7 @@ etap 1:
 
 etap 2:
 
+* dla 500 miast *
 - dostanę listę lotnisk
 - znaleźć sposób i bibliotekę mierzenia odległości (pewnie model great circle, geopy, ew. scipy)
 - wybrać listę miejscowości (np stolice) i dopasować najbliższe lotnisko

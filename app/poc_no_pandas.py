@@ -1,6 +1,6 @@
 import csv
 
-from config import OUTPUT_FILE, INPUT_FILE, INPUT_FIELDNAMES, CC_CODES, OUTPUT_FIELDNAMES
+from config import OUTPUT_FILE, INPUT_FILE, INPUT_FIELDNAMES, OUTPUT_FIELDNAMES, CC_FILE, CC_FIELDNAMES
 from app.core.timer import timer
 
 
@@ -52,7 +52,18 @@ def write_list_to_csv(content, output_file, output_fieldnames):
     return
 
 
+def cc_decoder(file, fieldnames=CC_FIELDNAMES):
+    with open(file) as csv_file:
+        for i in range(50):
+            csv_file.__next__()
+        reader = csv.DictReader(csv_file, delimiter='	', fieldnames=fieldnames)
+        cc_decoded = {row['ISO']: row['Country'] for row in reader}
+        return cc_decoded
+
+
 if __name__ == '__main__':
+    CC_CODES = cc_decoder(CC_FILE)
+
     city_list = convert_txt_to_csv_and_update_country_names(input_file=INPUT_FILE,
                                                             input_fieldnames=INPUT_FIELDNAMES,
                                                             limit=10,
