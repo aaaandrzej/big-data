@@ -1,4 +1,5 @@
 from pandas import DataFrame
+import numpy as np
 
 from app.core.timer import timer
 
@@ -10,9 +11,7 @@ def filter_positive_population_cities(df):
 # - domergować kolumnę z countries info - pełna nazwa kraju po angielsku
 @timer
 def update_df_with_country(df: DataFrame, country_info: DataFrame) -> DataFrame:
-    # df.insert(3, column='country', value=df['countrycode'].map(cc_decoder))  # old solution
-    # zrobić merge na 2 dataframe'ach i sprawdzić co jest bardziej wydajne
-    df = df.merge(country_info, left_on='countrycode', right_on='ISO')  # TODO how about Namibia and NaN/ NA mixing?
+    df = df.merge(country_info, left_on='countrycode', right_on='ISO')
     df.rename(columns={'Country': 'country', 'Capital': 'capital'}, inplace=True)
     return df
 
@@ -30,10 +29,18 @@ def count_cities_of_provided_population_per_country(df, pop_min, pop_max):
         (df.population > pop_min) & (df.population < pop_max)
         ].groupby('country').count()[['population']].sort_values('population', ascending=False)
 
-    # df = df[(df.population > 0) & (df.featureclass == 'P')]
-    # ar = df[['country', 'name', 'population']].to_numpy()
-    # hist, bins = np.histogram(ar[:, 2])
-    # return hist
+
+# ^ with numpy.histogram
+def count_cities_of_provided_population_per_country_with_np_hist(df):
+    df = df[(df.population > 0) & (df.featureclass == 'P')]
+    ar = df[['country', 'name', 'population']].to_numpy()
+    hist, bins = np.histogram(ar[:, 2])
+    result = {}
+    n = 0
+    for bin in bins:
+        result[bin] = hist[n]
+        n = +1
+    return result
 
 
 # - znaleźć kraje z najniższą/ najwyższą sumą mieszkańców w swoich miastach (*)

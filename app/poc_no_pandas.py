@@ -64,6 +64,8 @@ def cc_decoder(file, fieldnames=CC_FIELDNAMES):
 if __name__ == '__main__':
     CC_CODES = cc_decoder(CC_FILE)
 
+    OUTPUT_FIELDNAMES.remove('airport')  # added airports in pandas but out of scope here
+
     city_list = convert_txt_to_csv_and_update_country_names(input_file=INPUT_FILE,
                                                             input_fieldnames=INPUT_FIELDNAMES,
                                                             limit=10,

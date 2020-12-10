@@ -7,7 +7,7 @@ INPUT_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'alternatenames', 'latitud
 INTERIM_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'countrycode', 'latitude', 'longitude', 'featureclass',
                       'population']
 
-OUTPUT_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'country', 'latitude', 'longitude']
+OUTPUT_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'country', 'latitude', 'longitude', 'airport']
 
 CC_FIELDNAMES = ['ISO',
                  'ISO3',
