@@ -1,4 +1,4 @@
-import geopy.distance
+from geopy.distance import geodesic, great_circle
 from pandas import DataFrame
 
 from app.core.timer import timer
@@ -7,8 +7,8 @@ from app.core.timer import timer
 @timer
 def find_nearest_airport(latitude: float, longitude: float, airports: DataFrame) -> str:
     point = latitude, longitude
-    airports['dist'] = airports.apply(lambda x: geopy.distance.distance(point, (x['lat'], x['lon'])), axis=1)
-    return airports[airports.dist == airports['dist'].min()]['ident'].values[0]
+    return airports.loc[airports.apply(lambda x: great_circle(point, (x['lat'], x['lon'])).km, axis=1).idxmin()][
+        'ident']
 
 
 @timer
