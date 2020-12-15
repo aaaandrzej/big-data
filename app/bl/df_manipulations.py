@@ -1,7 +1,7 @@
 from pandas import DataFrame
 import numpy as np
 
-from app.core.timer import timer
+# from app.core.timer import timer
 
 
 def filter_positive_population_cities(df):
@@ -9,7 +9,7 @@ def filter_positive_population_cities(df):
 
 
 # - domergować kolumnę z countries info - pełna nazwa kraju po angielsku
-@timer
+# @timer
 def update_df_with_country(df: DataFrame, country_info: DataFrame) -> DataFrame:
     df = df.merge(country_info, left_on='countrycode', right_on='ISO')
     df.rename(columns={'Country': 'country', 'Capital': 'capital'}, inplace=True)

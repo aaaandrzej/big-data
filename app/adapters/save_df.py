@@ -1,8 +1,8 @@
 from app.bl.exc import FileFormatError
-from app.core.timer import timer
+# from app.core.timer import timer
 
 
-@timer
+# @timer
 def save_df(df, file, columns):
     file_format = None
     if len(file.rsplit('.')) > 1:
