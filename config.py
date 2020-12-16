@@ -1,4 +1,4 @@
-import os
+import os  # TODO upgrade to pathlib and move inside app dir
 
 INPUT_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'alternatenames', 'latitude', 'longitude', 'featureclass',
                     'featurecode', 'countrycode', 'cc2', 'admin1code', 'admin2code', 'admin3code', 'admin4code',
