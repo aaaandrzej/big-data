@@ -29,8 +29,26 @@ etap 2:
 
 etap 3:
 
-- zapis do dynamodb
 - przetwarzanie równoległe, optymalizacja
+  
+etap 4:
+
+- input i output data na s3 (2 buckety, localstack na początek)
+
+etap 5:
+
+- dokeryzacja, ECS (fargate), ECR
+- sparametryzowanie uruchamiania - wątki/ procesy/ liniowo (zmienne środowiskowe)
+- stworzenie i uruchomienie aplikacji przez aws cli
+
+etap 6:
+
+- zapis do dynamodb, najpierw lokalnie z localstack
+
+etap 7:
+
+- hexagonal architecture - propozycja
+- hexagonal architecture - implementacja
 
 ***
-do przechowywania tymczasowych tabel - pandas.to_feather ? czy coś bardziej optymalnego?
+sprawdzić czy async miałby zastosowanie w tym przykładzie
