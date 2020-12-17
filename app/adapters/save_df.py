@@ -5,6 +5,7 @@ from app.bl.exc import FileFormatError
 # @timer
 def save_df(df, file, columns):
     file_format = None
+    file = str(file)  # TODO temp workaround, refactor to use Path from pathlib
     if len(file.rsplit('.')) > 1:
         file_format = file.rsplit('.')[-1]
 

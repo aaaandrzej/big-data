@@ -1,6 +1,6 @@
 import csv
 
-from config import OUTPUT_FILE, INPUT_FILE, INPUT_FIELDNAMES, OUTPUT_FIELDNAMES, CC_FILE, CC_FIELDNAMES
+from app.config import OUTPUT_FILE, INPUT_FILE, INPUT_FIELDNAMES, OUTPUT_FIELDNAMES, CC_FILE, CC_FIELDNAMES
 from app.core.timer import timer
 
 

@@ -10,10 +10,10 @@ from app.adapters.save_df import save_df
 from app.bl.airport_matching import assign_nearest_airports, assign_nearest_airports_timed
 from app.bl.df_manipulations import filter_positive_population_cities, update_df_with_country
 from app.core.timer import timer
-from config import INPUT_FILE, OUTPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, OUTPUT_FIELDNAMES, \
+from app.config import INPUT_FILE, OUTPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, OUTPUT_FIELDNAMES, \
     AIRPORTS_FILE, CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED
 
-OUTPUT_FILE = OUTPUT_FILE.replace('.csv', '.feather')
+OUTPUT_FILE = str(OUTPUT_FILE).replace('.csv', '.feather')
 
 
 def df_chunking_alt(df: pd.DataFrame, chunksize: int) -> Iterable[pd.DataFrame]:
@@ -53,10 +53,10 @@ if __name__ == '__main__':
     a = func(df, airports, n_jobs=0)
     b = func(df, airports, n_jobs=1)
     c = func(df, airports, n_jobs=2)
-    d = func(df, airports, n_jobs=4)
-    e = func(df, airports, n_jobs=8)
-    f = func(df, airports, n_jobs=16)
-    g = func(df, airports, n_jobs=32)
-    h = func(df, airports, n_jobs=64)
+    # d = func(df, airports, n_jobs=4)
+    # e = func(df, airports, n_jobs=8)
+    # f = func(df, airports, n_jobs=16)
+    # g = func(df, airports, n_jobs=32)
+    # h = func(df, airports, n_jobs=64)
 
-    # save_df(dfb, OUTPUT_FILE, OUTPUT_FIELDNAMES)
+    save_df(a, OUTPUT_FILE, OUTPUT_FIELDNAMES)
