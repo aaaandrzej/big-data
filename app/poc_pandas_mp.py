@@ -3,7 +3,7 @@ import math
 import multiprocessing as mp
 from typing import Iterable
 
-from pandas import DataFrame
+import pandas as pd
 
 from app.adapters.load_csv import load_csv
 from app.adapters.save_df import save_df
@@ -16,12 +16,13 @@ from config import INPUT_FILE, OUTPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES
 OUTPUT_FILE = OUTPUT_FILE.replace('.csv', '.feather')
 
 
-def df_chunking_alt(df: DataFrame, chunksize: int) -> Iterable[DataFrame]:
+def df_chunking_alt(df: pd.DataFrame, chunksize: int) -> Iterable[pd.DataFrame]:
     return (df[i:i + chunksize] for i in range(0, df.shape[0], chunksize))
 
 
 @timer
 def func(df, airports, n_jobs=0):
+
     if n_jobs < 0:
         raise ValueError('n_jobs must be greater or equal 0')
 
@@ -42,10 +43,10 @@ def func(df, airports, n_jobs=0):
 
 if __name__ == '__main__':
     country_info = load_csv(CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED, skiprows=50)
-    df = load_csv(INPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, nrows=None)
+    df = load_csv(INPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, nrows=10000)
     df = filter_positive_population_cities(df)
     df = update_df_with_country(df, country_info)
-    df = df.sort_values('population', ascending=False).head(500)
+    df = df.sort_values('population', ascending=False).head(5)
     airports = load_csv(AIRPORTS_FILE, delimiter=',')
     # print('prep done')
 
