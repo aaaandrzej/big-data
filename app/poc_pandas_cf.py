@@ -23,7 +23,7 @@ def df_chunking_alt(df: pd.DataFrame, chunksize: int) -> Iterable[pd.DataFrame]:
 @timer
 def func(df, airports, executor_method=None):
 
-    selected_executor = {
+    selected_executor = {  # TODO shall executors be initialized in a dict or when used?
         'processes': ProcessPoolExecutor(),
         'threads': ThreadPoolExecutor()  # TODO debug pandas warning raised when using ThreadPoolExecutor()
     }
@@ -39,26 +39,22 @@ def func(df, airports, executor_method=None):
         return pd.concat(chunks_modified)
 
     else:
-        # return map(partial(assign_nearest_airports, airports=airports), df)
+        # return map(partial(assign_nearest_airports, airports=airports), df)  # TODO refactor so it works as executor
         return partial(assign_nearest_airports, airports=airports)(df)
 
 
 if __name__ == '__main__':
     country_info = load_csv(CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED, skiprows=50)
-    df = load_csv(INPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, nrows=10000)
+    df = load_csv(INPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, nrows=None)
     df = filter_positive_population_cities(df)
     df = update_df_with_country(df, country_info)
-    df = df.sort_values('population', ascending=False).head(5)
+    df = df.sort_values('population', ascending=False).head(500)
     airports = load_csv(AIRPORTS_FILE, delimiter=',')
     # print('prep done')
 
-    # a = func(df, airports, n_jobs=0)
-    b = func(df, airports)
-    c = func(df, airports, executor_method='processes')
-    d = func(df, airports, executor_method='threads')
-    e = func(df, airports, executor_method='unicorns')
-    # f = func(df, airports, n_jobs=16)
-    # g = func(df, airports, n_jobs=32)
-    # h = func(df, airports, n_jobs=64)
+    a = func(df, airports)
+    b = func(df, airports, executor_method='processes')
+    c = func(df, airports, executor_method='threads')
+    d = func(df, airports, executor_method='unicorns')
 
     # save_df(dfb, OUTPUT_FILE, OUTPUT_FIELDNAMES)
