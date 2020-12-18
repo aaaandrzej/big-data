@@ -1,4 +1,5 @@
-import os  # TODO upgrade to pathlib and move inside app dir
+import os
+from pathlib import Path
 
 INPUT_FIELDNAMES = ['geonameid', 'name', 'asciiname', 'alternatenames', 'latitude', 'longitude', 'featureclass',
                     'featurecode', 'countrycode', 'cc2', 'admin1code', 'admin2code', 'admin3code', 'admin4code',
@@ -31,19 +32,20 @@ CC_FIELDNAMES = ['ISO',
 
 CC_FIELDNAMES_TRIMMED = ['ISO', 'Country', 'Capital']
 
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ENDPOINT_URL = os.getenv('ENDPOINT_URL')
 
-INPUT_DIR = 'input-data'
-INPUT_FILE_NAME = 'allCountries.txt'
+if 's3' in os.getenv('INPUT_SOURCE'):  # TODO temp, to refactor!!
+    INPUT_DIR = os.getenv('INPUT_DIR')
+    INPUT_FILE = os.getenv('INPUT_FILE_NAME')
+    CC_FILE = os.getenv('CC_FILE_NAME')
+    AIRPORTS_FILE = os.getenv('AIRPORTS_FILE_NAME')
 
-OUTPUT_DIR = 'output-data'
-OUTPUT_FILE_NAME = 'allCountries.csv'
+else:
+    INPUT_FILE = Path(os.getenv('INPUT_DIR'), os.getenv('INPUT_FILE_NAME'))
+    CC_FILE = Path(os.getenv('INPUT_DIR'), os.getenv('CC_FILE_NAME'))
+    AIRPORTS_FILE = Path(os.getenv('INPUT_DIR'), os.getenv('AIRPORTS_FILE_NAME'))
 
-INPUT_FILE = os.path.join(ROOT_DIR, INPUT_DIR, INPUT_FILE_NAME)
-OUTPUT_FILE = os.path.join(ROOT_DIR, OUTPUT_DIR, OUTPUT_FILE_NAME)
 
-CC_FILE_NAME = '../input-data/countryInfo.txt'
-CC_FILE = os.path.join(ROOT_DIR, INPUT_DIR, CC_FILE_NAME)
+OUTPUT_FILE = Path(os.getenv('OUTPUT_DIR'), os.getenv('OUTPUT_FILE_NAME'))
 
-AIRPORTS_FILE_NAME = 'airports.csv'
-AIRPORTS_FILE = os.path.join(ROOT_DIR, INPUT_DIR, AIRPORTS_FILE_NAME)
+
