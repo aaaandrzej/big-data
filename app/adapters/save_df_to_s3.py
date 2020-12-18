@@ -1,6 +1,6 @@
 import os
 
-import s3fs
+import s3fs  # TODO pick either s3fs or boto3 to ensure consistency
 
 
 def save_df_to_s3(df, filename, columns):
