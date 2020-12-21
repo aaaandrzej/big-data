@@ -48,16 +48,17 @@ if __name__ == '__main__':
     df = load_csv(s3_load_file(INPUT_DIR, INPUT_FILE), INPUT_FIELDNAMES, INTERIM_FIELDNAMES, nrows=None)
     df = filter_positive_population_cities(df)
     df = update_df_with_country(df, country_info)
-    df = df.sort_values('population', ascending=False).head(5)
+    df = df.sort_values('population', ascending=False).head(50)
     airports = load_csv(s3_load_file(INPUT_DIR, AIRPORTS_FILE), delimiter=',')
-    # print('prep done')
-
-    a = func(df, airports)
-    # b = func(df, airports, executor_method='processes')
+    print('prep done')
+    #
+    #
+    # a = func(df, airports)
+    b = func(df, airports, executor_method='processes')
     # c = func(df, airports, executor_method='threads')
     # d = func(df, airports, executor_method='unicorns')
     #
     # save_df(a, OUTPUT_FILE, OUTPUT_FIELDNAMES)
-    save_df_to_s3(a, OUTPUT_FILE, OUTPUT_FIELDNAMES)
+    save_df_to_s3(b, OUTPUT_FILE, OUTPUT_FIELDNAMES)
 
 
