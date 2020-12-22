@@ -1,0 +1,8 @@
+version: "3"
+services:
+  app:
+    image: airport-finder
+    container_name: airport-finder
+    build: .
+    env_file:
+      - app/environment.env
