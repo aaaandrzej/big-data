@@ -6,3 +6,5 @@ services:
     build: .
     env_file:
       - app/environment.env
+#    tty: true
+#    command: tail -F /dev/null

@@ -5,7 +5,7 @@ RUN mkdir /aszulc-input
 RUN mkdir /aszulc-output
 
 COPY app app
-COPY input-data aszulc-input
+COPY aszulc-input aszulc-input
 
 WORKDIR /
 

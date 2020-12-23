@@ -1,9 +1,12 @@
 .idea
 venv
+venv2
 __pycache__
 *.env
 makefile-input.txt
 input-data
+aszulc-input
 temp-data
 output-data
+aszulc-output
 perf-logs

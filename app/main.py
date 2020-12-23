@@ -11,7 +11,8 @@ from app.bl.airport_matching import assign_nearest_airports, assign_nearest_airp
 from app.bl.df_manipulations import filter_positive_population_cities, update_df_with_country
 from app.core.timer import timer
 from app.config import INPUT_FILE, OUTPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, OUTPUT_FIELDNAMES, \
-    AIRPORTS_FILE, CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED
+    AIRPORTS_FILE, CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED, OPTIMIZATION
+
 
 # OUTPUT_FILE = str(OUTPUT_FILE).replace('.csv', '.feather')
 
@@ -54,10 +55,7 @@ if __name__ == '__main__':
     airports = load_csv(AIRPORTS_FILE, delimiter=',')
     print('prep done')
 
-    a = func(df, airports)
-    b = func(df, airports, executor_method='processes')
-    c = func(df, airports, executor_method='threads')
-    d = func(df, airports, executor_method='unicorns')
+    result = func(df, airports, executor_method=OPTIMIZATION)
 
-    save_df(a, OUTPUT_FILE, OUTPUT_FIELDNAMES)
+    save_df(result, OUTPUT_FILE, OUTPUT_FIELDNAMES)
     print('all done')
