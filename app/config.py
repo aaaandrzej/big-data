@@ -35,6 +35,8 @@ CC_FIELDNAMES_TRIMMED = ['ISO', 'Country', 'Capital']
 ENDPOINT_URL = os.getenv('ENDPOINT_URL')
 
 OPTIMIZATION = os.getenv('OPTIMIZATION')
+LINES_TO_READ = int(os.getenv('LINES_TO_READ')) if os.getenv('LINES_TO_READ') else None
+LINES_TO_PROCESS = int(os.getenv('LINES_TO_PROCESS')) if os.getenv('LINES_TO_PROCESS') else None
 
 if 's3' in os.getenv('INPUT_SOURCE', ''):  # TODO temp workaround, to refactor!! find a way to set up paths source agnostic
     INPUT_DIR = os.getenv('INPUT_DIR')

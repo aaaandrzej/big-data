@@ -11,7 +11,8 @@ from app.bl.airport_matching import assign_nearest_airports, assign_nearest_airp
 from app.bl.df_manipulations import filter_positive_population_cities, update_df_with_country
 from app.core.timer import timer
 from app.config import INPUT_FILE, OUTPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, OUTPUT_FIELDNAMES, \
-    AIRPORTS_FILE, CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED, OPTIMIZATION
+    AIRPORTS_FILE, CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED, OPTIMIZATION, \
+    LINES_TO_READ, LINES_TO_PROCESS
 
 
 # OUTPUT_FILE = str(OUTPUT_FILE).replace('.csv', '.feather')
@@ -23,7 +24,6 @@ def df_chunking_alt(df: pd.DataFrame, chunksize: int) -> Iterable[pd.DataFrame]:
 
 @timer
 def func(df, airports, executor_method=None):
-
     selected_executor = {  # TODO shall executors be initialized in a dict or when used?
         'processes': ProcessPoolExecutor(),
         'threads': ThreadPoolExecutor()  # TODO debug pandas warning raised when using ThreadPoolExecutor()
@@ -48,10 +48,10 @@ if __name__ == '__main__':
     pd.options.mode.chained_assignment = None  # silent multithreading pandas SettingWithCopyWarning
 
     country_info = load_csv(CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED, skiprows=50)
-    df = load_csv(INPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, nrows=10000)
+    df = load_csv(INPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, nrows=LINES_TO_READ)
     df = filter_positive_population_cities(df)
     df = update_df_with_country(df, country_info)
-    df = df.sort_values('population', ascending=False).head(5)
+    df = df.sort_values('population', ascending=False).head(LINES_TO_PROCESS)
     airports = load_csv(AIRPORTS_FILE, delimiter=',')
     print('prep done')
 
