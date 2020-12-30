@@ -1,8 +1,11 @@
 import os
 
-import s3fs  # TODO pick either s3fs or boto3 to ensure consistency
+import s3fs  # TODO pick either s3fs or boto3 to ensure consistency  # TODO consider dropping s3fs as causes conflicts
+
+from app.core.timer import timer
 
 
+@timer
 def save_df_to_s3(df, filename, columns):
     s3 = s3fs.S3FileSystem(anon=False, client_kwargs={'endpoint_url': os.getenv('ENDPOINT_URL')})
 

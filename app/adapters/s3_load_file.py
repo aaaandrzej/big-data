@@ -3,7 +3,10 @@ import os
 
 import boto3
 
+from app.core.timer import timer
 
+
+@timer
 def s3_load_file(bucket_name, file_name):
     s3 = boto3.client('s3',
                       endpoint_url=os.getenv('ENDPOINT_URL'),
