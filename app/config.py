@@ -38,13 +38,17 @@ OPTIMIZATION = os.getenv('OPTIMIZATION')
 LINES_TO_READ = int(os.getenv('LINES_TO_READ')) if os.getenv('LINES_TO_READ') else None
 LINES_TO_PROCESS = int(os.getenv('LINES_TO_PROCESS')) if os.getenv('LINES_TO_PROCESS') else None
 
-if 's3' in os.getenv('INPUT_SOURCE', ''):  # TODO temp workaround, to refactor!! find a way to set up paths source agnostic
+S3_SOURCE = True if os.getenv('INPUT_SOURCE') else False
+S3_DESTINATION = True if os.getenv('OUTPUT_SOURCE') else False
+
+if S3_SOURCE:  # TODO temp workaround, to refactor!! find a way to set up paths source agnostic
     INPUT_DIR = os.getenv('INPUT_DIR')
     INPUT_FILE = os.getenv('INPUT_FILE_NAME')
     CC_FILE = os.getenv('CC_FILE_NAME')
     AIRPORTS_FILE = os.getenv('AIRPORTS_FILE_NAME')
 
 else:
+    INPUT_DIR = os.getenv('INPUT_DIR')  # just for compability
     INPUT_FILE = Path(os.getenv('INPUT_DIR'), os.getenv('INPUT_FILE_NAME'))
     CC_FILE = Path(os.getenv('INPUT_DIR'), os.getenv('CC_FILE_NAME'))
     AIRPORTS_FILE = Path(os.getenv('INPUT_DIR'), os.getenv('AIRPORTS_FILE_NAME'))

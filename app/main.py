@@ -6,15 +6,13 @@ from typing import Iterable
 import pandas as pd
 
 from app.adapters.load_csv import load_csv
-from app.adapters.s3_load_file import s3_load_file
 from app.adapters.save_df import save_df
-from app.adapters.save_df_to_s3 import save_df_to_s3
 from app.bl.airport_matching import assign_nearest_airports, assign_nearest_airports_timed
 from app.bl.df_manipulations import filter_positive_population_cities, update_df_with_country
 from app.core.timer import timer
 from app.config import INPUT_FILE, OUTPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, OUTPUT_FIELDNAMES, \
     AIRPORTS_FILE, CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED, OPTIMIZATION, \
-    LINES_TO_READ, LINES_TO_PROCESS, INPUT_DIR
+    LINES_TO_READ, LINES_TO_PROCESS, INPUT_DIR, S3_SOURCE, S3_DESTINATION
 
 
 # OUTPUT_FILE = str(OUTPUT_FILE).replace('.csv', '.feather')
@@ -49,17 +47,16 @@ def func(df, airports, executor_method=None):
 if __name__ == '__main__':
     pd.options.mode.chained_assignment = None  # silent multithreading pandas SettingWithCopyWarning
 
-    country_info = load_csv(s3_load_file(INPUT_DIR, CC_FILE), CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED, skiprows=50)
-    df = load_csv(s3_load_file(INPUT_DIR, INPUT_FILE), INPUT_FIELDNAMES, INTERIM_FIELDNAMES, nrows=LINES_TO_READ)
+    country_info = load_csv(CC_FILE, CC_FIELDNAMES, CC_FIELDNAMES_TRIMMED, skiprows=50, bucket_name=INPUT_DIR, s3=S3_SOURCE)
+    df = load_csv(INPUT_FILE, INPUT_FIELDNAMES, INTERIM_FIELDNAMES, nrows=LINES_TO_READ, bucket_name=INPUT_DIR, s3=S3_SOURCE)
     df = filter_positive_population_cities(df)
     df = update_df_with_country(df, country_info)
-    # df = df.sort_values('population', ascending=False).head(LINES_TO_PROCESS)
-    airports = load_csv(s3_load_file(INPUT_DIR, AIRPORTS_FILE), delimiter=',')
+    df = df.sort_values('population', ascending=False).head(LINES_TO_PROCESS)
+    airports = load_csv(AIRPORTS_FILE, delimiter=',', bucket_name=INPUT_DIR, s3=S3_SOURCE)
     print('prep done')
 
-    # df = func(df, airports, executor_method=OPTIMIZATION)
+    df = func(df, airports, executor_method=OPTIMIZATION)
 
-    # save_df_to_s3(df, OUTPUT_FILE, OUTPUT_FIELDNAMES)
+    save_df(df, OUTPUT_FILE, OUTPUT_FIELDNAMES, s3=S3_DESTINATION)
 
     print('all done')
-    print(len(df))
