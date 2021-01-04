@@ -27,4 +27,4 @@ def s3_save_df(df, filename, columns):
 
     csv_buffer = StringIO()
     df.to_csv(csv_buffer, columns=columns, index=True)
-    s3.Object(f'{filename.parent}', f'{filename.name}').put(Body=csv_buffer.getvalue())
+    s3.Object(f'{filename.parent}', f'{filename.name}').put(Body=csv_buffer.getvalue())  # TODO is f' OK here?
