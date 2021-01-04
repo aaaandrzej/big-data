@@ -1,9 +1,9 @@
 from app.adapters.s3_save_df import s3_save_df
 from app.bl.exc import FileFormatError
-# from app.core.timer import timer
+from app.core.timer import timer
 
 
-# @timer
+@timer
 def save_df(df, file, columns, s3=False):
     if s3:
         s3_save_df(df, file, columns)

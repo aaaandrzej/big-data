@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     df = func(df, airports, executor_method=OPTIMIZATION)
 
-    # save_df(df, OUTPUT_FILE, OUTPUT_FIELDNAMES, s3=S3_DESTINATION)
+    save_df(df, OUTPUT_FILE, OUTPUT_FIELDNAMES, s3=S3_DESTINATION)
     save_df_to_dynamodb(df, output_fieldnames=OUTPUT_FIELDNAMES)
 
     print('all done')
