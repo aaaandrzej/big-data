@@ -5,6 +5,7 @@ from typing import Iterable
 
 import pandas as pd
 
+from app.adapters.dynamo_db import save_df_to_dynamodb
 from app.adapters.load_csv import load_csv
 from app.adapters.save_df import save_df
 from app.bl.airport_matching import assign_nearest_airports, assign_nearest_airports_timed
@@ -57,6 +58,9 @@ if __name__ == '__main__':
 
     df = func(df, airports, executor_method=OPTIMIZATION)
 
-    save_df(df, OUTPUT_FILE, OUTPUT_FIELDNAMES, s3=S3_DESTINATION)
+    # save_df(df, OUTPUT_FILE, OUTPUT_FIELDNAMES, s3=S3_DESTINATION)
+    save_df_to_dynamodb(df, output_fieldnames=OUTPUT_FIELDNAMES)
 
     print('all done')
+
+
