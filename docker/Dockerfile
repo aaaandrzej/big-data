@@ -18,6 +18,7 @@ RUN rm -f /src/get-poetry.py
 
 WORKDIR /
 RUN mkdir /app
+COPY environment.env /
 COPY app app
 
-CMD export $(grep -v '^#' app/environment.env | xargs) && PYTHONPATH=.:app python app/main.py
+CMD export $(grep -v '^#' environment.env | xargs) && PYTHONPATH=.:app python app/main.py

@@ -5,6 +5,6 @@ services:
     container_name: airport-finder
     build: .
     env_file:
-      - app/environment.env
+      - ../environment.env
 #    tty: true
 #    command: tail -F /dev/null
